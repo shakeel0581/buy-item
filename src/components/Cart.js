@@ -68,33 +68,52 @@ const RenderHeader = () => {
 };
 
 let Login = () => {
+
   let navigation = useNavigation();
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [dataa, setDataa] = useState([]);
   let [total, setTotal] = useState(0);
+  let [totalPrice, setTotalPrice] = useState(0);
   console.log(data);
   const TotalCart = () => {
     //setTotal();
     console.log('price' + price);
   };
+
   const DeleteCart = (a) => {
     //useEffect(() => {
-    console.log('a' + a);
+      // setTotalPrice(0);
+      setLoading(true);
     const uri = api.deleteitem + a;
     fetch(uri)
       .then((response) => response.json())
       .then((json) => {
-        setData(json);
-        //Alert.alert(data.result);
-        // console.log('data' + data);
+        AsyncStorage.getItem('RandomNumber').then((result) => {
+          console.log('RandomNumberrr' + result);
+          let Rnumber = JSON.parse(result);
+          const uri = api.cartshow + Rnumber
+          console.log(uri);
+          setIsLoading(true);
+    
+          fetch(uri)
+            .then((response) => response.json())
+            .then((json) => {
+              setIsLoading(false);
+              setData(json);
+            })
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+        });
       })
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   };
+
+
   let [totalQuantity, setTotalQuantity] = useState(0);
 
-  let [totalPrice, setTotalPrice] = useState(0);
+  
 
   let price = 0;
   //let catId = '0';
@@ -114,13 +133,33 @@ let Login = () => {
         .then((json) => {
           setIsLoading(false);
           setData(json);
-          
-         
         })
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
     });
+      navigation.addListener('focus', () => {
+        AsyncStorage.getItem('RandomNumber').then((result) => {
+          console.log('RandomNumberrr' + result);
+          let Rnumber = JSON.parse(result);
+          const uri = api.cartshow + Rnumber
+          console.log(uri);
+          setIsLoading(true);
+    
+          fetch(uri)
+            .then((response) => response.json())
+            .then((json) => {
+              setIsLoading(false);
+              setData(json);
+            })
+            .catch((error) => console.error(error))
+            .finally(() => setLoading(false));
+        });
+    })
   }, []);
+
+  const init = () => {
+    
+  }
 
   //
   //   useEffect(() => {
@@ -176,14 +215,14 @@ let Login = () => {
           style={{
             width: '98%',
           }}>
+            {console.log('totalPrice',totalPrice)}
           <FlatList
             // onRefresh={refre}
             // refreshing={isLoading}
             data={data.Data}
             renderItem={({item}) => (
-              <TouchableOpacity>
                 <View
-                  onPress={setTotalPrice((price += parseInt(item.pro_price)))}
+                  // onPress={setTotalPrice((price += parseInt(item.pro_price)))}
                   style={{
                     width: '100%',
                     alignSelf: 'center',
@@ -193,6 +232,7 @@ let Login = () => {
                     marginTop: '5%',
                     marginBottom: '10%',
                   }}>
+                    {setTotalPrice((price += parseInt(item.pro_price)))}
                   <View style={{width: '90%', marginTop: '7%'}}>
                     <TouchableOpacity onPress={() => DeleteCart(item.cart_id)}>
                       <Icon
@@ -251,16 +291,6 @@ let Login = () => {
                       }}>
                       PKR {item.pro_price}
                     </Text>
-
-                    <Text
-                      style={{
-                        color: 'black',
-                        fontSize: 18,
-                        textAlign: 'center',
-                        marginTop: 10,
-                      }}>
-                      30
-                    </Text>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -282,7 +312,7 @@ let Login = () => {
                         <Feather name="plus" />
                       </TouchableOpacity>
                     </View>
-                    <Text
+                    {/* <Text
                       style={{
                         color: colors.ORANGE.DEFAULT,
                         fontSize: 18,
@@ -291,10 +321,10 @@ let Login = () => {
                         marginBottom: 20,
                       }}>
                       PKR 700
-                    </Text>
+                    </Text> */}
                   </View>
                 </View>
-              </TouchableOpacity>
+              
             )}
           />
         </View>
@@ -345,7 +375,7 @@ let Login = () => {
                 Total :
               </Text>
               <Text style={{color: colors.ORANGE.DEFAULT, fontSize: 18}}>
-                PKR 4450
+                PKR {totalPrice}
               </Text>
             </View>
 

@@ -157,9 +157,6 @@ const Header = () => {
 
 
 
-
-
-
 const Shops = () => {
   let navigation = useNavigation();
   const screenHeight = Dimensions.get('window').height;
@@ -195,10 +192,13 @@ const Shops = () => {
         <FlatList
           data={shop.Data}
           horizontal={true}
+          showsHorizontalScrollIndicator={false}
           keyExtractor={({ vendor_id }, val) => Math.floor(Math.random() * 10000000) + vendor_id}
           renderItem={({ item }) => (
 
-            <View style={{
+            <TouchableOpacity 
+            onPress={() => navigation.navigate('Allproduct', {SHOP_ID: item.vendor_id,V_Name:item.vendor_company_name})}
+             style={{
               paddingLeft: 25,
               height: 70, alignItems: 'center',
             }}>
@@ -211,13 +211,9 @@ const Shops = () => {
                 {item.vendor_company_name}
               </Text>
 
-            </View>
-
-
+            </TouchableOpacity>
           )}
         />
-
-
       </View>
     </View>
   );
@@ -270,7 +266,7 @@ const Recents = () => {
               AsyncStorage.getItem('RandomNumber').then((result) => {
                 let user = JSON.parse(result);
                 const uri =
-                  api.addcart +
+                  api.addcart +user+
                   '&product_id=' +
                   item.pro_id +
                   '&quantity=1&user_id=' + user;
@@ -298,7 +294,7 @@ const Recents = () => {
 
                   <Image
                     source={{ uri: featuredslider + item.image_name }}
-                    style={{ width: 180, height: 150 }}
+                    style={styles.img}
                     resizeMode="center"></Image>
 
                   <Paragraph
@@ -485,7 +481,7 @@ const FeaturedSlider = () => {
               AsyncStorage.getItem('RandomNumber').then((result) => {
                 let user = JSON.parse(result);
                 const uri =
-                  api.addcart +
+                  api.addcart +user+
                   '&product_id=' +
                   item.pro_id +
                   '&quantity=1&user_id=' + user;
@@ -511,7 +507,7 @@ const FeaturedSlider = () => {
                   }>
                   <Image
                     source={{ uri: featuredslider + item.image_name }}
-                    style={{ width: 180, height: 150 }}
+                    style={styles.img}
                     resizeMode="center"></Image>
 
                   <Paragraph
@@ -619,7 +615,7 @@ const BestSeller = () => {
                 console.log('result' + result);
                 let user = JSON.parse(result);
                 const uri =
-                  api.addcart +
+                  api.addcart +user+
                   '&product_id=' +
                   item.pro_id +
                   '&quantity=1&user_id=' + user;
@@ -646,7 +642,7 @@ const BestSeller = () => {
                   }>
                   <Image
                     source={{ uri: featuredslider + item.image_name }}
-                    style={{ width: 180, height: 150 }}
+                    style={styles.img}
                     resizeMode="center"></Image>
 
                   <Paragraph
@@ -751,7 +747,7 @@ const RecommenderSlider = () => {
                 console.log('result' + result);
                 let user = JSON.parse(result);
                 const uri =
-                  api.addcart +
+                  api.addcart +user+
                   '&product_id=' +
                   item.pro_id +
                   '&quantity=1&user_id=' + user;
@@ -778,7 +774,7 @@ const RecommenderSlider = () => {
                   }>
                   <Image
                     source={{ uri: featuredslider + item.image_name }}
-                    style={{ width: 180, height: 150 }}
+                    style={styles.img}
                     resizeMode="center"></Image>
 
                   <Paragraph
@@ -874,7 +870,7 @@ const App = () => {
                 marginLeft: 20,
                 marginRight: 20,
               }}
-              onPress={() => navigation.navigate('Allproduct')}
+              onPress={() => navigation.navigate('Allproduct', {SHOP_ID: null,V_Name: ''})}
             >
               <Text
                 style={{
@@ -997,6 +993,10 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
+  img:{
+    height:150,
+    width:(Dimensions.get('window').width/2)
+  }
 });
 
 export default App;

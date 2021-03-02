@@ -57,10 +57,18 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 const initialLayout = {width: Dimensions.get('window').width};
 const RandomNumber = Math.floor(Math.random() * 10000000) + 1 ;
-  AsyncStorage.setItem('RandomNumber', JSON.stringify(RandomNumber));
+  
 
 
 const App = () => {
+  React.useEffect( () => {
+    AsyncStorage.getItem('RandomNumber').
+    then(res => {
+      if (res == nul) {
+        AsyncStorage.setItem('RandomNumber', JSON.stringify(RandomNumber));
+      }
+    })
+  })
   let options = {
     headerShown: false,
   };

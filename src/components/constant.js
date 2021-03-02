@@ -58,20 +58,22 @@ export let images = {
   logoAsiaTv: require('../assets/logo_asiatv.png'),
   trendingProduct: require('../assets/product.jpg'),
 };
-const mainurl = 'http://thecodeditors.com/test/buy_it/';
-const mainurl2 = 'https://thecodeditors.com/test/buy_it/';
+// const mainurl = 'http://thecodeditors.com/test/buy_it/';
+const mainurl = 'https://thecodeditors.com/test/buy_it/';
+const mainurl2 = 'http://thecodeditors.com/test/buy_it/';
+
 // const mainurl3= 'https://thecodeditors.com/test/buy_it/'
 export const sliderpic =
-  'https://thecodeditors.com/test/single_vendor/admin/slider_images/';
+  'https://thecodeditors.com/test/multi_vendor/admin/slider_images/';
 export const cardimage =
-  'https://thecodeditors.com/test/single_vendor/admin/plugin/product_images/';
+  'https://thecodeditors.com/test/multi_vendor/admin/plugin/product_images/';
 export const cartimage =
-  'https://thecodeditors.com/test/single_vendor/admin/plugin/product_images/';
+  'https://thecodeditors.com/test/multi_vendor/admin/plugin/product_images/';
 export const catlist =
   'https://thecodeditors.com/test/multi_vendor/admin/sub_category_images/';
 
 export const featuredslider =
-  'https://thecodeditors.com/test/single_vendor/admin/plugin/product_images/';
+  'https://thecodeditors.com/test/multi_vendor/admin/plugin/product_images/';
 
 export let api = {
   menuCategories: '',
@@ -82,8 +84,10 @@ export let api = {
   categorieslistdetails: mainurl + 'api-get-product.php?',
   productdetails: mainurl + 'api-get-singleproduct.php?',
   cartshow: mainurl + 'api-get-cartshow.php?user_id=',
+  shopProducts: mainurl + 'api-get-productbyshop.php?id=',
+  
   checkout: mainurl + 'api-get-checkout.php?',
-  addcart: mainurl + 'api-get-cartadd.php?guest_id=',
+  addcart: 'https://thecodeditors.com/test/buy_it/api-get-cartadd.php?guest_id=',
   deleteitem: mainurl + 'api-get-cartdel.php?cart_id=',
   recommendslider: 'https://thecodeditors.com/test/buy_it/api-get-allproductrole.php?role=recommendation',
   featuredslider: 'https://thecodeditors.com/test/buy_it/api-get-allproductrole.php?role=specialoffer',

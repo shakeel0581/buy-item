@@ -94,7 +94,14 @@ export default function DrawerContent(props) {
         </View>
    
         <View style={{borderBottomWidth: 1, borderBottomColor: 'grey'}}>
-          <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <TouchableOpacity onPress={() => navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'HomeScreen' }
+        ],
+      })
+    )}>
             <Text style={{color: '#adadad', padding: 10}}>Logout</Text>
           </TouchableOpacity>
         </View>

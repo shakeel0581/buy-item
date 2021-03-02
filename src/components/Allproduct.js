@@ -30,7 +30,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import {CheckBox} from 'native-base';
 import AsyncStorage from '@react-native-community/async-storage';
 import {Icon} from 'react-native-elements';
-import {api, sliderpic, featuredslider, slider, allproduct,  Recent, shop} from './constant';
+import {api, sliderpic, featuredslider, slider, allproduct,  Recent, shopProducts} from './constant';
 
 import BottomAccount from './BottomAccount';
 
@@ -151,7 +151,10 @@ const Header = () => {
     </View>
   );
 };
-const Allproduct = () => {
+const Allproduct = (props) => {
+  const { SHOP_ID,V_Name } = props.route.params;
+    const v_id =  SHOP_ID ? SHOP_ID : null;
+
     let navigation = useNavigation();
     const screenHeight = Dimensions.get('window').height;
     const screenWidth = Dimensions.get('window').width;
@@ -162,13 +165,22 @@ const Allproduct = () => {
   
     useEffect(() => {
      
-      fetch(api.Recent)
+      if (v_id) {
+        fetch(api.shopProducts+v_id)
+        .then((response) => response.json())
+        .then((json) => {
+          setAllproduct(json);
+        })
+        .catch((error) => console.error(error))
+      } else {
+        fetch(api.allproduct)
         .then((response) => response.json())
         .then((json) => {
           setAllproduct(json);
       
         })
         .catch((error) => console.error(error))
+      }
       
     }, []);
   
@@ -278,14 +290,10 @@ const Allproduct = () => {
       </View>
     );
   };
-  
 
-
-
-
-
-const App = () => {
+const App = (props) => {
     let navigation = useNavigation();
+    const { SHOP_ID,V_Name } = props.route.params;
   //const {ch} = route.params;
   const screenHeight = Dimensions.get('window').height;
   return (
@@ -294,13 +302,10 @@ const App = () => {
       <Header />
       <View style={{height: screenHeight, alignItems:'center' }}>
         <ScrollView style={{marginTop: 20, marginBottom: 100}}>
-        
-          
-
           <Text style={{fontSize: 20, fontWeight: 'bold', padding: 10, marginLeft: 10, color:'#5b5e5c'}}>
-            All Shops
+            {V_Name == '' ? 'All Products' : V_Name}
           </Text>
-         <Allproduct />
+         <Allproduct {...props} />
            
         </ScrollView>
       </View>
